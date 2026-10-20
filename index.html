@@ -461,8 +461,10 @@ footer p { margin: 14px 0 0; max-width: 760px; }
     const stand = new Date(d.stand);
     const alt = Date.now() - stand > 3 * 3600e3;
     $("status").classList.toggle("stale", alt);
-    $("status-text").textContent = alt ? `Daten von ${fmtZeit.format(stand)}, Prüfung hängt` : `Geprüft ${relativ(stand)}`;
-    $("status").title = `Letzte Prüfung: ${fmtZeit.format(stand)} Uhr`;
+    $("status-text").textContent = alt ? `Zuletzt geprüft ${fmtZeit.format(stand)} Uhr` : `Geprüft ${relativ(stand)}`;
+    $("status").title = alt
+      ? "Das Behördenportal war seitdem nicht erreichbar (z. B. Wartung) – der Wächter versucht es alle 30 Minuten weiter."
+      : `Letzte Prüfung: ${fmtZeit.format(stand)} Uhr`;
   }
 
   function renderStats(neu) {

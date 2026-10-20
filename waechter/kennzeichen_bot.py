@@ -419,7 +419,8 @@ def lauf(cfg):
         benachrichtigen(cfg, f"{len(neu)} Wunschkennzeichen neu frei!", ", ".join(map(anzeigen, neu)))
 
     letzter = datetime.fromisoformat(zustand.get("letzter_erfolg", datetime.now().isoformat()))
-    if (datetime.now() - letzter).total_seconds() > 6 * 3600 and not zustand.get("gewarnt"):
+    # 12 Std., weil das Portal nachts Wartungspausen macht („Ups, wir sind aktuell leider nicht erreichbar“)
+    if (datetime.now() - letzter).total_seconds() > 12 * 3600 and not zustand.get("gewarnt"):
         benachrichtigen(cfg, "Kennzeichen-Wächter hat Probleme",
                         f"Seit {letzter:%d.%m. %H:%M} keine erfolgreiche Abfrage. Details im Protokoll"
                         + (" bei GitHub Actions." if CLOUD else " verlauf.log."))
