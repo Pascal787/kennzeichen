@@ -5,10 +5,14 @@ on:
     # GitHub startet geplante Läufe unzuverlässig (verspätet oder gar nicht). Deshalb wird alle
     # 5 Minuten angeklopft; das Skript prüft nur, wenn der letzte Lauf ≥ 24 Min. her ist.
     - cron: "4-59/5 * * * *"
-  workflow_dispatch:          # „Run workflow“-Knopf für einen Lauf von Hand
+  workflow_dispatch:          # „Run workflow“-Knopf für einen Lauf von Hand – und der externe Wecker
     inputs:
       test:
         description: "Nur Testbenachrichtigung senden"
+        type: boolean
+        default: false
+      automatisch:
+        description: "Vom Wecker (cron-job.org) – dann wie geplante Läufe mit Mindestabstand"
         type: boolean
         default: false
 
@@ -34,7 +38,7 @@ jobs:
           GMAIL_APP_PASSWORT: ${{ secrets.GMAIL_APP_PASSWORT }}
           KZ_ZUSTAND: waechter/zustand.json
           KZ_WEBSITE: .
-          KZ_MINDESTABSTAND_MIN: ${{ github.event_name == 'schedule' && '24' || '0' }}
+          KZ_MINDESTABSTAND_MIN: ${{ (github.event_name == 'schedule' || inputs.automatisch) && '24' || '0' }}
         run: python3 waechter/kennzeichen_bot.py ${{ inputs.test && '--test' || '' }}
 
       - name: Ergebnis speichern
