@@ -1,0 +1,611 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Freie Wunschkennzeichen</title>
+<meta name="description" content="Freie Wunschkennzeichen S-… 911 und S-… 992 in Stuttgart, automatisch aktualisiert.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='2' y='16' width='60' height='32' rx='6' fill='%23fff' stroke='%23111' stroke-width='3'/%3E%3Crect x='4' y='18' width='12' height='28' rx='2' fill='%230b3d91'/%3E%3Ctext x='38' y='41' font-family='Arial' font-weight='700' font-size='20' text-anchor='middle' fill='%23111'%3ES%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f4f5f7;
+  --surface: #ffffff;
+  --surface-2: #f9fafb;
+  --text: #14161a;
+  --muted: #5f6672;
+  --faint: #8b919c;
+  --border: #e3e6ea;
+  --accent: #0b3d91;
+  --accent-soft: #e8eefb;
+  --new: #0f8a4b;
+  --new-soft: #e3f5ea;
+  --gone: #a0a6b0;
+  --warn: #b25e00;
+  --warn-soft: #fff1de;
+  --shadow: 0 1px 2px rgba(16, 24, 40, .06), 0 1px 3px rgba(16, 24, 40, .08);
+  --shadow-lift: 0 6px 16px rgba(16, 24, 40, .12);
+  --plate-shadow: 0 1px 0 rgba(0, 0, 0, .04), 0 2px 6px rgba(16, 24, 40, .10);
+  --radius: 14px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1115;
+    --surface: #171a20;
+    --surface-2: #1c2027;
+    --text: #eceef2;
+    --muted: #a3a9b4;
+    --faint: #7a808b;
+    --border: #2a2f38;
+    --accent: #7ea6ff;
+    --accent-soft: #1b2640;
+    --new: #43c784;
+    --new-soft: #133024;
+    --gone: #6c727c;
+    --warn: #ffb35c;
+    --warn-soft: #33240f;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4);
+    --shadow-lift: 0 8px 22px rgba(0, 0, 0, .5);
+    --plate-shadow: 0 2px 10px rgba(0, 0, 0, .45);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1115;
+  --surface: #171a20;
+  --surface-2: #1c2027;
+  --text: #eceef2;
+  --muted: #a3a9b4;
+  --faint: #7a808b;
+  --border: #2a2f38;
+  --accent: #7ea6ff;
+  --accent-soft: #1b2640;
+  --new: #43c784;
+  --new-soft: #133024;
+  --gone: #6c727c;
+  --warn: #ffb35c;
+  --warn-soft: #33240f;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .4);
+  --shadow-lift: 0 8px 22px rgba(0, 0, 0, .5);
+  --plate-shadow: 0 2px 10px rgba(0, 0, 0, .45);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 15px/1.5 Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--accent); }
+button { font: inherit; color: inherit; }
+
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+
+/* ---------- Kopf ---------- */
+header.hero {
+  padding: 40px 0 28px;
+}
+.hero-top {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+}
+.eyebrow {
+  font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted);
+  margin: 0 0 6px;
+}
+h1 {
+  font-size: clamp(28px, 5vw, 42px); line-height: 1.1; letter-spacing: -.02em; margin: 0; font-weight: 700;
+}
+.lede { margin: 10px 0 0; color: var(--muted); max-width: 560px; }
+
+.status {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 12px; border-radius: 999px; background: var(--surface); border: 1px solid var(--border);
+  font-size: 13px; color: var(--muted); box-shadow: var(--shadow); white-space: nowrap;
+}
+.status .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--new); position: relative; }
+.status .dot::after {
+  content: ""; position: absolute; inset: -4px; border-radius: 50%; border: 2px solid var(--new); opacity: 0;
+  animation: ping 2.4s ease-out infinite;
+}
+.status.stale .dot { background: var(--warn); }
+.status.stale .dot::after { display: none; }
+.status.stale { background: var(--warn-soft); color: var(--warn); border-color: transparent; }
+@keyframes ping { 0% { transform: scale(.6); opacity: .7; } 80%, 100% { transform: scale(1.6); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .status .dot::after { animation: none; } }
+
+/* ---------- Kennzahlen ---------- */
+.stats {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 26px;
+}
+.stat {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 16px 18px; box-shadow: var(--shadow);
+}
+.stat .lbl { font-size: 13px; color: var(--muted); }
+.stat .val { font-size: 30px; font-weight: 700; letter-spacing: -.02em; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.stat .val small { font-size: 14px; font-weight: 500; color: var(--faint); margin-left: 4px; }
+.stat.is-new .val { color: var(--new); }
+
+/* ---------- Bedienleiste ---------- */
+.toolbar {
+  position: sticky; top: 0; z-index: 5;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: saturate(1.4) blur(10px); -webkit-backdrop-filter: saturate(1.4) blur(10px);
+  padding: 12px 0; margin-top: 8px;
+  border-bottom: 1px solid transparent; transition: border-color .2s;
+}
+.toolbar.scrolled { border-bottom-color: var(--border); }
+.toolbar .wrap { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.search {
+  flex: 1 1 280px; position: relative;
+}
+.search svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--faint); pointer-events: none; }
+.search input {
+  width: 100%; height: 46px; padding: 0 40px 0 42px; border-radius: 12px;
+  border: 1px solid var(--border); background: var(--surface); color: var(--text);
+  font: 500 16px/1 Inter, system-ui, sans-serif; box-shadow: var(--shadow); outline: none;
+  transition: border-color .15s, box-shadow .15s;
+}
+.search input::placeholder { color: var(--faint); font-weight: 400; }
+.search input:focus { border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
+.search .clear {
+  position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+  width: 30px; height: 30px; border: 0; border-radius: 8px; background: transparent; color: var(--faint); cursor: pointer;
+  display: none; align-items: center; justify-content: center;
+}
+.search .clear:hover { background: var(--surface-2); color: var(--text); }
+.search.has-value .clear { display: flex; }
+
+.seg {
+  display: inline-flex; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 4px;
+  box-shadow: var(--shadow); height: 46px;
+}
+.seg button {
+  border: 0; background: transparent; padding: 0 14px; border-radius: 8px; cursor: pointer;
+  font-weight: 600; font-size: 14px; color: var(--muted); transition: background .15s, color .15s;
+}
+.seg button[aria-pressed="true"] { background: var(--accent); color: #fff; }
+:root[data-theme="dark"] .seg button[aria-pressed="true"] { color: #0f1115; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .seg button[aria-pressed="true"] { color: #0f1115; } }
+.seg button:not([aria-pressed="true"]):hover { color: var(--text); }
+
+.chip-toggle {
+  height: 46px; padding: 0 14px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface);
+  box-shadow: var(--shadow); cursor: pointer; font-weight: 600; font-size: 14px; color: var(--muted);
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.chip-toggle .tick { width: 10px; height: 10px; border-radius: 50%; background: var(--new); opacity: .35; }
+.chip-toggle[aria-pressed="true"] { background: var(--new-soft); color: var(--new); border-color: transparent; }
+.chip-toggle[aria-pressed="true"] .tick { opacity: 1; }
+
+.resultline { font-size: 13px; color: var(--muted); padding: 14px 0 0; min-height: 34px; }
+
+/* ---------- Kennzeichen ---------- */
+section.group { margin: 22px 0 38px; }
+.group-head {
+  display: flex; align-items: baseline; gap: 12px; margin: 0 0 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border);
+}
+.group-head h2 { margin: 0; font-size: 22px; letter-spacing: -.01em; }
+.group-head .count { color: var(--muted); font-size: 14px; }
+.letter-nav { margin-left: auto; display: flex; gap: 2px; flex-wrap: wrap; justify-content: flex-end; }
+.letter-nav a {
+  font-size: 12px; font-weight: 600; color: var(--muted); text-decoration: none; width: 22px; height: 22px; border-radius: 6px;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.letter-nav a:hover { background: var(--accent-soft); color: var(--accent); }
+.letter-nav a.off { color: var(--border); pointer-events: none; }
+
+.grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(196px, 1fr)); gap: 12px;
+}
+.card {
+  position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 16px 12px 12px; display: flex; flex-direction: column; align-items: center; gap: 10px;
+  cursor: pointer; transition: transform .15s ease, box-shadow .15s ease, border-color .15s; box-shadow: var(--shadow);
+  text-align: center; scroll-margin-top: 90px;
+}
+.card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lift); }
+.card:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.card.is-new { border-color: color-mix(in srgb, var(--new) 45%, var(--border)); }
+.card .meta { font-size: 12px; color: var(--faint); }
+.badge {
+  position: absolute; top: -8px; right: 10px; background: var(--new); color: #fff;
+  font-size: 11px; font-weight: 700; letter-spacing: .06em; padding: 3px 8px; border-radius: 999px;
+  box-shadow: 0 2px 6px rgba(15, 138, 75, .35);
+}
+:root[data-theme="dark"] .badge { color: #0f1115; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .badge { color: #0f1115; } }
+
+/* Das Schild selbst – bewusst immer weiß wie ein echtes Kennzeichen */
+.plate {
+  --h: 46px;
+  display: inline-flex; align-items: stretch; height: var(--h);
+  background: #fff; color: #111; border: 2.5px solid #111; border-radius: 7px;
+  box-shadow: var(--plate-shadow), inset 0 0 0 1.5px #fff;
+  font-family: "Barlow Condensed", "Arial Narrow", sans-serif; font-weight: 600;
+  font-size: calc(var(--h) * .74); line-height: 1; overflow: hidden; user-select: all;
+}
+.plate .eu {
+  width: calc(var(--h) * .42); background: #0b3d91; color: #fff; flex: none;
+  display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 4px 0 3px;
+  font-family: Inter, Arial, sans-serif; font-weight: 700; font-size: calc(var(--h) * .24);
+}
+.plate .eu svg { width: 74%; height: auto; }
+.plate .txt { display: flex; align-items: center; padding: 0 10px 0 8px; gap: 5px; letter-spacing: .02em; white-space: nowrap; }
+.plate .seals { display: flex; flex-direction: column; gap: 2px; margin: 0 2px; }
+.plate .seals i { display: block; width: calc(var(--h) * .27); height: calc(var(--h) * .27); border-radius: 50%; }
+.plate .seals i:first-child { background: radial-gradient(circle at 35% 35%, #f6d36b, #d8a422); box-shadow: inset 0 0 0 1px rgba(0,0,0,.18); }
+.plate .seals i:last-child { background: radial-gradient(circle at 35% 35%, #e9e9e9, #b9bcc0); box-shadow: inset 0 0 0 1px rgba(0,0,0,.2); }
+.plate .num { margin-left: 6px; }
+
+/* ---------- Verlauf ---------- */
+.two-col { display: grid; grid-template-columns: 1fr; gap: 20px; margin: 18px 0 40px; }
+.panel {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow);
+  padding: 18px 20px;
+}
+.panel h2 { font-size: 17px; margin: 0 0 4px; }
+.panel .sub { font-size: 13px; color: var(--muted); margin: 0 0 12px; }
+.events { list-style: none; margin: 0; padding: 0; }
+.events li {
+  display: grid; grid-template-columns: 112px 1fr auto; align-items: center; gap: 12px;
+  padding: 9px 0; border-top: 1px solid var(--border); font-size: 14px;
+}
+.events li:first-child { border-top: 0; }
+.events time { color: var(--faint); font-size: 13px; font-variant-numeric: tabular-nums; }
+.events .k { font-family: "Barlow Condensed", "Arial Narrow", sans-serif; font-weight: 600; font-size: 19px; letter-spacing: .02em; }
+.events .art { font-size: 12px; font-weight: 600; padding: 2px 9px; border-radius: 999px; }
+.events .neu .art { background: var(--new-soft); color: var(--new); }
+.events .weg .k { color: var(--gone); text-decoration: line-through; text-decoration-thickness: 1.5px; }
+.events .weg .art { background: var(--surface-2); color: var(--gone); }
+.more { margin-top: 10px; border: 0; background: transparent; color: var(--accent); font-weight: 600; cursor: pointer; padding: 6px 0; }
+.empty-note { color: var(--muted); font-size: 14px; padding: 6px 0; }
+
+.howto ol { margin: 0; padding-left: 20px; color: var(--muted); font-size: 14px; }
+.howto li { margin: 6px 0; }
+.howto li b { color: var(--text); font-weight: 600; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; padding: 10px 16px; border-radius: 10px;
+  background: var(--accent); color: #fff; text-decoration: none; font-weight: 600; font-size: 14px;
+}
+:root[data-theme="dark"] .btn { color: #0f1115; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .btn { color: #0f1115; } }
+
+.empty {
+  text-align: center; padding: 56px 16px; color: var(--muted);
+}
+.empty .plate { opacity: .5; margin-bottom: 14px; }
+
+footer { color: var(--faint); font-size: 12.5px; padding: 8px 0 48px; border-top: 1px solid var(--border); }
+footer p { margin: 14px 0 0; max-width: 760px; }
+
+/* ---------- Hinweis „kopiert“ ---------- */
+.toast {
+  position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom)); transform: translate(-50%, 20px);
+  background: var(--text); color: var(--bg); padding: 10px 16px; border-radius: 10px; font-size: 14px; font-weight: 500;
+  box-shadow: var(--shadow-lift); opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; z-index: 20;
+  max-width: calc(100vw - 32px);
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+.skeleton .card { pointer-events: none; }
+.skeleton .plate { filter: grayscale(1); opacity: .35; }
+
+@media (min-width: 880px) {
+  .two-col { grid-template-columns: 1.5fr 1fr; }
+}
+@media (max-width: 560px) {
+  header.hero { padding-top: 28px; }
+  .stats { gap: 8px; }
+  .stat { padding: 12px 12px; }
+  .stat .val { font-size: 24px; }
+  .stat .lbl { font-size: 12px; }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+  .plate { --h: 36px; }
+  .card { padding: 14px 8px 10px; }
+  .seg button { padding: 0 11px; }
+  .letter-nav { display: none; }
+  .events li { grid-template-columns: 1fr auto; }
+  .events time { grid-column: 1 / -1; margin-bottom: -6px; }
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-top">
+      <div>
+        <p class="eyebrow">Zulassungsstelle Stuttgart</p>
+        <h1>Freie Wunschkennzeichen</h1>
+        <p class="lede">Alle freien Kennzeichen <b>S-… 911</b> und <b>S-… 992</b>. Die Liste wird automatisch alle 30&nbsp;Minuten beim Behörden-Serviceportal geprüft.</p>
+      </div>
+      <div class="status" id="status" title=""><span class="dot"></span><span id="status-text">Lade Daten …</span></div>
+    </div>
+
+    <div class="stats" id="stats">
+      <div class="stat"><div class="lbl">911 frei</div><div class="val" id="st-911">–</div></div>
+      <div class="stat"><div class="lbl">992 frei</div><div class="val" id="st-992">–</div></div>
+      <div class="stat is-new"><div class="lbl">Neu frei (7 Tage)</div><div class="val" id="st-new">–</div></div>
+    </div>
+  </div>
+</header>
+
+<div class="toolbar" id="toolbar">
+  <div class="wrap">
+    <label class="search" id="search-wrap">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" inputmode="search" autocomplete="off" spellcheck="false" placeholder="Suchen, z. B. Q, QF oder S-QF 911" aria-label="Kennzeichen suchen">
+      <button class="clear" id="clear" type="button" aria-label="Suche leeren">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </label>
+    <div class="seg" role="group" aria-label="Zahl auswählen" id="seg">
+      <button type="button" data-z="" aria-pressed="true">Alle</button>
+      <button type="button" data-z="911" aria-pressed="false">911</button>
+      <button type="button" data-z="992" aria-pressed="false">992</button>
+    </div>
+    <button type="button" class="chip-toggle" id="only-new" aria-pressed="false"><span class="tick"></span>Nur neue</button>
+  </div>
+</div>
+
+<main class="wrap">
+  <div class="resultline" id="resultline" aria-live="polite"></div>
+  <div id="groups"></div>
+
+  <div class="two-col">
+    <div class="panel">
+      <h2>Letzte Änderungen</h2>
+      <p class="sub">Was neu frei wurde und was inzwischen vergeben ist.</p>
+      <ul class="events" id="events"></ul>
+      <button class="more" id="more" type="button" hidden>Mehr anzeigen</button>
+    </div>
+    <div class="panel howto">
+      <h2>So reservierst du</h2>
+      <p class="sub">Reserviert wird direkt bei der Stadt, online in ein paar Minuten.</p>
+      <ol>
+        <li>Auf ein Kennzeichen tippen, dann wird es <b>kopiert</b>.</li>
+        <li>Bei der Stadt Stuttgart <b>„Wunschkennzeichen reservieren“</b> öffnen.</li>
+        <li>Buchstaben und Zahl eintragen und reservieren. Die Bestätigung speichern.</li>
+      </ol>
+      <a class="btn" href="https://www.stuttgart.de/organigramm/leistungen/kraftfahrzeugkennzeichen-wunschkennzeichen-reservieren" target="_blank" rel="noopener">Zur Reservierung
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+      </a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Die Daten werden automatisch über die öffentliche Wunschkennzeichen-Suche des Behörden-Serviceportals abgefragt, ohne Gewähr. Ein Kennzeichen kann jederzeit von jemand anderem reserviert werden. Laut Stadt: höchstens 3 Reservierungen pro Person, 180 Tage gültig, 12,80&nbsp;€ bei der Zulassung. „Bekannt seit“ heißt: seit diesem Zeitpunkt als frei erfasst.</p>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+  const ZAHLEN = ["911", "992"];
+  const NEU_TAGE = 7;
+  const $ = (id) => document.getElementById(id);
+  const state = { daten: null, q: "", zahl: "", nurNeu: false, eventsShown: 12 };
+
+  const STARS = (() => {
+    let s = '<svg viewBox="0 0 20 20" aria-hidden="true">';
+    for (let i = 0; i < 12; i++) {
+      const a = (i / 12) * Math.PI * 2;
+      s += `<circle cx="${(10 + Math.sin(a) * 7).toFixed(2)}" cy="${(10 - Math.cos(a) * 7).toFixed(2)}" r="1.25" fill="#ffd617"/>`;
+    }
+    return s + "</svg>";
+  })();
+
+  function split(k) { const [o, b, z] = k.split("-"); return { o, b, z }; }
+  function anzeige(k) { const { o, b, z } = split(k); return `${o}-${b} ${z}`; }
+  function plateHTML(k) {
+    const { o, b, z } = split(k);
+    return `<span class="plate" aria-label="${o} ${b} ${z}"><span class="eu">${STARS}<span>D</span></span>` +
+      `<span class="txt"><span>${o}</span><span class="seals"><i></i><i></i></span><span>${b}</span><span class="num">${z}</span></span></span>`;
+  }
+
+  const fmtDatum = new Intl.DateTimeFormat("de-DE", { day: "2-digit", month: "2-digit" });
+  const fmtZeit = new Intl.DateTimeFormat("de-DE", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
+  const fmtUhr = new Intl.DateTimeFormat("de-DE", { hour: "2-digit", minute: "2-digit" });
+  function relativ(d) {
+    const min = Math.round((Date.now() - d) / 60000);
+    if (min < 1) return "gerade eben";
+    if (min < 60) return `vor ${min} Min.`;
+    const h = Math.floor(min / 60);
+    if (h < 24) return `vor ${h} Std.`;
+    return `am ${fmtZeit.format(d)}`;
+  }
+
+  // Suchtext → Buchstaben- und Zahlenteil ("S-QF 911", "qf911", "Q", "911")
+  function parseQuery(q) {
+    let t = q.toUpperCase().replace(/[^A-Z0-9?]/g, "");
+    if (t.startsWith("S") && t.length > 1 && /[A-Z]/.test(t[1])) t = t.slice(1);
+    const m = t.match(/^([A-Z?]*)(\d*)$/);
+    if (!m) return { ungueltig: true };
+    return { b: m[1], z: m[2] };
+  }
+  function passt(k, pq) {
+    if (pq.ungueltig) return false;
+    const { b, z } = split(k);
+    if (pq.b) {
+      if (pq.b.includes("?")) {
+        if (pq.b.length !== b.length) return false;
+        for (let i = 0; i < b.length; i++) if (pq.b[i] !== "?" && pq.b[i] !== b[i]) return false;
+      } else if (!b.startsWith(pq.b)) return false;
+    }
+    if (pq.z && !z.startsWith(pq.z)) return false;
+    return true;
+  }
+
+  function neuSet() {
+    const grenze = Date.now() - NEU_TAGE * 864e5;
+    const s = new Set();
+    for (const e of state.daten.ereignisse) if (e.art === "neu" && new Date(e.t) >= grenze) s.add(e.k);
+    return s;
+  }
+
+  function renderStatus() {
+    const d = state.daten;
+    const stand = new Date(d.stand);
+    const alt = Date.now() - stand > 3 * 3600e3;
+    $("status").classList.toggle("stale", alt);
+    $("status-text").textContent = alt ? `Daten von ${fmtZeit.format(stand)}, Prüfung hängt` : `Geprüft ${relativ(stand)}`;
+    $("status").title = `Letzte Prüfung: ${fmtZeit.format(stand)} Uhr`;
+  }
+
+  function renderStats(neu) {
+    const ks = state.daten.kennzeichen;
+    for (const z of ZAHLEN) $("st-" + z).textContent = ks.filter((x) => x.k.endsWith("-" + z)).length;
+    $("st-new").innerHTML = `${neu.size}`;
+  }
+
+  function render() {
+    const d = state.daten;
+    if (!d) return;
+    const neu = neuSet();
+    renderStatus();
+    renderStats(neu);
+
+    const pq = parseQuery(state.q.trim());
+    const zahlen = state.zahl ? [state.zahl] : ZAHLEN;
+    let gesamt = 0;
+    let html = "";
+    for (const z of zahlen) {
+      const liste = d.kennzeichen
+        .filter((x) => x.k.endsWith("-" + z))
+        .filter((x) => !state.q.trim() || passt(x.k, pq))
+        .filter((x) => !state.nurNeu || neu.has(x.k))
+        .sort((a, b) => { const A = split(a.k).b, B = split(b.k).b; return A.length - B.length || A.localeCompare(B); });
+      if (!liste.length) continue;
+      gesamt += liste.length;
+      const vorhanden = new Set(liste.map((x) => split(x.k).b[0]));
+      let nav = "";
+      if (liste.length > 24) {
+        nav = '<nav class="letter-nav" aria-label="Springe zu Buchstabe">' +
+          "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map((L) =>
+            `<a href="#z${z}-${L}" class="${vorhanden.has(L) ? "" : "off"}">${L}</a>`).join("") + "</nav>";
+      }
+      const gesehen = new Set();
+      html += `<section class="group"><div class="group-head"><h2>${z}</h2><span class="count">${liste.length} frei</span>${nav}</div><div class="grid">`;
+      for (const x of liste) {
+        const L = split(x.k).b[0];
+        const anker = gesehen.has(L) ? "" : ` id="z${z}-${L}"`;
+        gesehen.add(L);
+        const istNeu = neu.has(x.k);
+        const seit = new Date(x.seit);
+        html += `<div class="card${istNeu ? " is-new" : ""}"${anker} tabindex="0" role="button" data-k="${x.k}" aria-label="${anzeige(x.k)} kopieren">` +
+          (istNeu ? '<span class="badge">NEU</span>' : "") + plateHTML(x.k) +
+          `<span class="meta">${istNeu ? "frei seit" : "bekannt seit"} ${fmtDatum.format(seit)}</span></div>`;
+      }
+      html += "</div></section>";
+    }
+    if (!gesamt) {
+      html = `<div class="empty">${plateHTML("S-??-" + (state.zahl || "911"))}<p>${pq.ungueltig ? "Bitte Buchstaben und/oder Zahl eingeben, z. B. QF oder 911." : "Kein freies Kennzeichen passt zu deiner Suche."}</p></div>`;
+    }
+    $("groups").innerHTML = html;
+
+    const filter = state.q.trim() || state.zahl || state.nurNeu;
+    $("resultline").textContent = filter ? `${gesamt} ${gesamt === 1 ? "Treffer" : "Treffer"}` : `${gesamt} freie Kennzeichen`;
+    renderEvents();
+  }
+
+  function renderEvents() {
+    const ev = state.daten.ereignisse;
+    if (!ev.length) {
+      $("events").innerHTML = '<li class="empty-note">Noch keine Änderungen seit Beginn der Beobachtung.</li>';
+      $("more").hidden = true;
+      return;
+    }
+    $("events").innerHTML = ev.slice(0, state.eventsShown).map((e) =>
+      `<li class="${e.art}"><time datetime="${e.t}">${fmtZeit.format(new Date(e.t))}</time>` +
+      `<span class="k">${anzeige(e.k)}</span><span class="art">${e.art === "neu" ? "neu frei" : "vergeben"}</span></li>`).join("");
+    $("more").hidden = ev.length <= state.eventsShown;
+  }
+
+  function skeleton() {
+    let html = '<section class="group skeleton"><div class="group-head"><h2>911</h2></div><div class="grid">';
+    for (let i = 0; i < 8; i++) html += `<div class="card">${plateHTML("S-XX-911")}<span class="meta">&nbsp;</span></div>`;
+    $("groups").innerHTML = html + "</div></section>";
+  }
+
+  let toastTimer;
+  function toast(msg) {
+    const t = $("toast");
+    t.textContent = msg;
+    t.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove("show"), 2200);
+  }
+  async function kopieren(k) {
+    const text = anzeige(k);
+    try { await navigator.clipboard.writeText(text); toast(`${text} kopiert`); }
+    catch { toast(text); }
+  }
+
+  async function laden() {
+    try {
+      const r = await fetch(`daten.json?t=${Date.now()}`, { cache: "no-store" });
+      if (!r.ok) throw new Error(r.status);
+      state.daten = await r.json();
+      render();
+    } catch (e) {
+      if (!state.daten) {
+        $("status-text").textContent = "Daten nicht erreichbar";
+        $("status").classList.add("stale");
+        $("groups").innerHTML = '<div class="empty"><p>Die Liste konnte gerade nicht geladen werden. Bitte später neu laden.</p></div>';
+      }
+    }
+  }
+
+  // Bedienung
+  const q = $("q");
+  let qTimer;
+  q.addEventListener("input", () => {
+    $("search-wrap").classList.toggle("has-value", !!q.value);
+    clearTimeout(qTimer);
+    qTimer = setTimeout(() => { state.q = q.value; render(); }, 80);
+  });
+  $("clear").addEventListener("click", (e) => {
+    e.preventDefault();
+    q.value = ""; state.q = ""; $("search-wrap").classList.remove("has-value"); render(); q.focus();
+  });
+  $("seg").addEventListener("click", (e) => {
+    const b = e.target.closest("button"); if (!b) return;
+    for (const x of $("seg").querySelectorAll("button")) x.setAttribute("aria-pressed", String(x === b));
+    state.zahl = b.dataset.z; render();
+  });
+  $("only-new").addEventListener("click", (e) => {
+    state.nurNeu = !state.nurNeu;
+    e.currentTarget.setAttribute("aria-pressed", String(state.nurNeu)); render();
+  });
+  $("more").addEventListener("click", () => { state.eventsShown += 25; renderEvents(); });
+  $("groups").addEventListener("click", (e) => {
+    const c = e.target.closest(".card[data-k]"); if (c) kopieren(c.dataset.k);
+  });
+  $("groups").addEventListener("keydown", (e) => {
+    if ((e.key === "Enter" || e.key === " ") && e.target.matches(".card[data-k]")) { e.preventDefault(); kopieren(e.target.dataset.k); }
+  });
+  const tb = $("toolbar");
+  new IntersectionObserver(([en]) => tb.classList.toggle("scrolled", en.intersectionRatio < 1), { threshold: [1] }).observe(tb);
+  window.addEventListener("scroll", () => tb.classList.toggle("scrolled", tb.getBoundingClientRect().top <= 0), { passive: true });
+
+  skeleton();
+  laden();
+  setInterval(laden, 5 * 60 * 1000);
+  setInterval(() => state.daten && renderStatus(), 60 * 1000);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) laden(); });
+})();
+</script>
+</body>
+</html>
