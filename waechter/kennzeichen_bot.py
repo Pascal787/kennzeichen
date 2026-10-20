@@ -356,6 +356,17 @@ def lauf(cfg):
     Das Portal reagiert auf viele Suchen in kurzer Zeit mit Fehlern. Deshalb wird die Arbeit
     über mehrere Läufe verteilt und bei einem Fehler sofort aufgehört, statt nachzubohren."""
     zustand = zustand_laden(cfg)
+
+    # GitHub lässt geplante Läufe oft ausfallen; deshalb wird alle 5 Min. angeklopft und
+    # hier übersprungen, wenn der letzte echte Lauf noch nicht lange genug her ist.
+    mindestabstand = float(os.environ.get("KZ_MINDESTABSTAND_MIN") or 0)
+    if mindestabstand and zustand.get("letzter_lauf"):
+        vergangen = (datetime.now() - datetime.fromisoformat(zustand["letzter_lauf"])).total_seconds() / 60
+        if vergangen < mindestabstand:
+            log.info("Letzter Lauf vor %.0f Min. – diesmal übersprungen", vergangen)
+            return
+    zustand["letzter_lauf"] = datetime.now().isoformat(timespec="seconds")
+
     reihenfolge = sorted(muster_liste(cfg), key=lambda m: zustand["geprueft"].get(schluessel(*m), ""))
     budget = cfg.get("suchen_pro_lauf", Suche.MAX_PRO_ANTRAG)
     neu, weg, erledigt = [], [], 0
