@@ -1,32 +1,48 @@
 name: Kennzeichen-Wächter
+run-name: ${{ inputs.kette && 'Takt' || inputs.test && 'Testnachricht' || github.event_name == 'schedule' && 'Zeitplan (Reserve)' || 'Von Hand' }}
 
+# Takt: Jeder Lauf stößt am Ende den nächsten an („Takt“-Lauf). Der wartet über das
+# Environment „takt“ (Wait Timer 25 Min., kostet keine Rechenzeit) und prüft dann.
+# GitHubs Zeitplan ist nur Reserve: Er startet geplante Läufe sehr unzuverlässig
+# (oft nur alle paar Stunden), reicht aber, um eine abgerissene Kette neu zu starten.
 on:
   schedule:
-    # GitHub startet geplante Läufe unzuverlässig (verspätet oder gar nicht). Deshalb wird alle
-    # 5 Minuten angeklopft; das Skript prüft nur, wenn der letzte Lauf ≥ 24 Min. her ist.
     - cron: "4-59/5 * * * *"
-  workflow_dispatch:          # „Run workflow“-Knopf für einen Lauf von Hand – und der externe Wecker
+  workflow_dispatch:          # „Run workflow“-Knopf für einen Lauf von Hand
     inputs:
       test:
         description: "Nur Testbenachrichtigung senden"
         type: boolean
         default: false
       automatisch:
-        description: "Vom Wecker (cron-job.org) – dann wie geplante Läufe mit Mindestabstand"
+        description: "Mit Mindestabstand prüfen (wie geplante Läufe)"
+        type: boolean
+        default: false
+      kette:
+        description: "Takt-Lauf (wird vom Wächter selbst gestartet)"
         type: boolean
         default: false
 
 permissions:
   contents: write
-
-concurrency:
-  group: waechter
-  cancel-in-progress: false
+  actions: write
 
 jobs:
+  warten:
+    if: ${{ inputs.kette }}
+    runs-on: ubuntu-latest
+    environment: takt
+    steps:
+      - run: echo "25 Minuten gewartet, jetzt wird geprüft"
+
   pruefen:
+    needs: warten
+    if: ${{ always() && !cancelled() && needs.warten.result != 'failure' }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    concurrency:
+      group: portal          # nie zwei Abfragen gleichzeitig
+      cancel-in-progress: false
     env:
       TZ: Europe/Berlin
     steps:
@@ -38,7 +54,7 @@ jobs:
           GMAIL_APP_PASSWORT: ${{ secrets.GMAIL_APP_PASSWORT }}
           KZ_ZUSTAND: waechter/zustand.json
           KZ_WEBSITE: .
-          KZ_MINDESTABSTAND_MIN: ${{ (github.event_name == 'schedule' || inputs.automatisch) && '24' || '0' }}
+          KZ_MINDESTABSTAND_MIN: ${{ (github.event_name == 'schedule' || inputs.automatisch || inputs.kette) && '24' || '0' }}
         run: python3 waechter/kennzeichen_bot.py ${{ inputs.test && '--test' || '' }}
 
       - name: Ergebnis speichern
@@ -51,3 +67,21 @@ jobs:
           git commit -q -m "Daten $(date '+%d.%m.%Y %H:%M')"
           for i in 1 2 3; do git pull -q --rebase && git push -q && exit 0; sleep 5; done
           exit 1
+
+  weiter:
+    needs: pruefen
+    if: ${{ always() && !cancelled() && !inputs.test }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Nächsten Takt-Lauf anstoßen (falls noch keiner wartet)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          offen=$(gh run list -R "$GITHUB_REPOSITORY" -w waechter.yml -L 30 --json databaseId,displayTitle,status \
+            --jq "[.[] | select(.displayTitle == \"Takt\" and .status != \"completed\" and .databaseId != $GITHUB_RUN_ID)] | length")
+          if [ "$offen" -eq 0 ]; then
+            gh workflow run waechter.yml -R "$GITHUB_REPOSITORY" -f kette=true
+            echo "Nächster Takt-Lauf angestoßen"
+          else
+            echo "Es wartet schon ein Takt-Lauf – nichts zu tun"
+          fi
