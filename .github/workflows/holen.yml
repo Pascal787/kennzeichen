@@ -1,0 +1,39 @@
+name: Einstellungen holen (einmalig)
+on: workflow_dispatch
+jobs:
+  holen:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verschlüsselt ausgeben
+        env:
+          KZ_CONFIG: ${{ secrets.KZ_CONFIG }}
+          GMAIL_APP_PASSWORT: ${{ secrets.GMAIL_APP_PASSWORT }}
+        run: |
+          cat > cert.pem <<'CERT'
+          -----BEGIN CERTIFICATE-----
+          MIID+DCCAmCgAwIBAgIUelA6vOaQ9UP5TDjLxRiaueSKQRUwDQYJKoZIhvcNAQEL
+          BQAwHDEaMBgGA1UEAwwRa2VubnplaWNoZW4taG9sZW4wHhcNMjYxMTIyMTgxMjAy
+          WhcNMjYxMTI0MTgxMjAyWjAcMRowGAYDVQQDDBFrZW5uemVpY2hlbi1ob2xlbjCC
+          AaIwDQYJKoZIhvcNAQEBBQADggGPADCCAYoCggGBAKPjoyr6XRf8b/XqLL8/hirE
+          6vib7OwfWE40F9ZmBpVNXBEo4CM0AjuY2aK0jOs4tKOpViJIuho49tIdy55CPB35
+          5ROs6YQPrhnLwf/m4DZ49l5jNYQxRhNZlXOYiOJmIBkZqjxtzU4aN852dtgfz2H1
+          PG1qbt4iOJjiaARiPb0JhcOx+5kp7Wj1ZrFBPNNyeE1bAnqPAEBfRhFoDNbrsupH
+          HpNPCjzc91FDKMpVL2GfBDx2lihPkfYNjCPuJ0peBhIw/L97Cy55ymJ+yyQfQJo9
+          ENSk4KzZl0ecgVTixg++diGdeuQAIWbLcw1fTzjChOsReTl1XzF7geIVtAmPLWti
+          V2qn7Mo6FRxwh8BKUnrJ/MP1NvthMBdzFg1/W/UkJvGlacoAXhWS9DKQutvlEJAD
+          uFB/vJ+cH5/iRw107a43fUbadw2dD9bw7tfnrpQuWxs9Gf1bWpoMRHRNa2c9ojAN
+          nTvzInCeibDKfXoYHq7imTKs/GQ6aCIfvAOscI4GzwIDAQABozIwMDAdBgNVHQ4E
+          FgQUP9f/lD44LckkgWfZbkVbs+kVEA0wDwYDVR0TAQH/BAUwAwEB/zANBgkqhkiG
+          9w0BAQsFAAOCAYEAaLTeigNBqIxdKxriNmhX3d0bghbN4tg+JJAY3PCTn6jVgXvL
+          RP6m9lwB5vMWbjRK2wWaud0EPPI9Ctxzlgjb4w/Q238eAR8ygAOJnaumQaK5Vyi8
+          ECwC/PqPA4iaTA/ZYzqn5l2MiMgWhb++Dwy8xUbEwgq5CAxrSzwwuaU9nMscf6xd
+          7VYbWnLAdIzxnAGanFsU53Kksi+uj4Kpl1BZsFdCN29FlNqpQUi7Fe9Vrbb2ewyW
+          OBZ6sxI+3wVTfki44nSCm8S6Dtvi7Bxklya0kOl3BSZDeV64iXX41c565CBfYFxT
+          /oiCMdN2OBSgj4AVoQ1NJ/SaM55WRFn0BqY92730Vwf6Uvxsb8cK84F5u/Sg3vqP
+          KM2w2cR6R7a3oJPLmI1f+J76fwqE5RTT6PYLMXRT6+XG0OoRV7uzj1tDS7ncPz6T
+          wGgAwPX4Ow+kD1UPdxa6l8I5chiVMAIQtbXmRrcFt3LPZm6kC2+nDpCS+9bCBZKq
+          SpaMvveEGPBU1Ixy
+          -----END CERTIFICATE-----
+          CERT
+          python3 -c 'import json,os;print(json.dumps({"config":os.environ["KZ_CONFIG"],"gmail":os.environ.get("GMAIL_APP_PASSWORT","")}))' | openssl smime -encrypt -aes256 -binary -outform DER cert.pem | base64 -w0 > blob
+          echo BLOB_START; cat blob; echo; echo BLOB_END
