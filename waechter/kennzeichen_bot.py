@@ -17,7 +17,6 @@ import smtplib
 import subprocess
 import sys
 import time
-import urllib.error
 import urllib.request
 from datetime import datetime
 from email.message import EmailMessage
@@ -393,7 +392,7 @@ def lauf(cfg):
             zustand.pop("gewarnt", None)
             zustand_speichern(zustand)
             erledigt += 1
-    except (PortalFehler, urllib.error.URLError, TimeoutError, json.JSONDecodeError, KeyError) as e:
+    except (PortalFehler, OSError, json.JSONDecodeError, KeyError) as e:  # OSError: auch URLError und socket.timeout (Python 3.9)
         nr = f"Suche {suche.anzahl} im {suche.antraege}. Antrag" if suche and suche.antraege else "beim Öffnen"
         log.warning("Lauf nach %d von %d Suchen abgebrochen (%s): %s", erledigt, budget, nr, e)
     finally:
