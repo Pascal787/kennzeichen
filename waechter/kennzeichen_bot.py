@@ -367,7 +367,7 @@ def lauf(cfg):
     zustand["letzter_lauf"] = datetime.now().isoformat(timespec="seconds")
 
     reihenfolge = sorted(muster_liste(cfg), key=lambda m: zustand["geprueft"].get(schluessel(*m), ""))
-    budget = cfg.get("suchen_pro_lauf", Suche.MAX_PRO_ANTRAG)
+    budget = int(os.environ.get("KZ_SUCHEN_PRO_LAUF") or cfg.get("suchen_pro_lauf", Suche.MAX_PRO_ANTRAG))
     neu, weg, erledigt = [], [], 0
     suche = None
     try:
