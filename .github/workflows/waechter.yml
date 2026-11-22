@@ -77,11 +77,21 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          offen=$(gh run list -R "$GITHUB_REPOSITORY" -w waechter.yml -L 30 --json databaseId,displayTitle,status \
-            --jq "[.[] | select(.displayTitle == \"Takt\" and .status != \"completed\" and .databaseId != $GITHUB_RUN_ID)] | length")
-          if [ "$offen" -eq 0 ]; then
-            gh workflow run waechter.yml -R "$GITHUB_REPOSITORY" -f kette=true
-            echo "Nächster Takt-Lauf angestoßen"
-          else
-            echo "Es wartet schon ein Takt-Lauf – nichts zu tun"
-          fi
+          # Mehrere Versuche: Ein kurzer Netzfehler hier reißt sonst die ganze Kette ab (22.11.2026).
+          # Hat ein Versuch den Lauf doch angelegt, sieht der nächste ihn in der Liste und tut nichts.
+          anstossen() {
+            offen=$(gh run list -R "$GITHUB_REPOSITORY" -w waechter.yml -L 30 --json databaseId,displayTitle,status \
+              --jq "[.[] | select(.displayTitle == \"Takt\" and .status != \"completed\" and .databaseId != $GITHUB_RUN_ID)] | length") || return 1
+            if [ "$offen" -eq 0 ]; then
+              gh workflow run waechter.yml -R "$GITHUB_REPOSITORY" -f kette=true || return 1
+              echo "Nächster Takt-Lauf angestoßen"
+            else
+              echo "Es wartet schon ein Takt-Lauf – nichts zu tun"
+            fi
+          }
+          for i in 1 2 3 4 5; do
+            anstossen && exit 0
+            echo "Versuch $i fehlgeschlagen, neuer Versuch in 30 Sekunden"
+            sleep 30
+          done
+          exit 1
